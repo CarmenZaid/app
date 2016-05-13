@@ -1,0 +1,18 @@
+.cabeceraR{
+    text-align: center;
+    padding: 3%;
+    color: white;
+    background-color: #3CD3AD;
+}
+
+.container {
+    margin-top:1%;
+    background-color: #F6F6F6;
+    border-radius: 10px;
+    width: 60%;
+
+}
+
+body {
+    background-color: #A4A6A7;
+}

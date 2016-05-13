@@ -1,0 +1,58 @@
+.cabeceraV {
+text-align: center;
+    padding: 3%;
+    color: white;
+    background-color: #3CD3AD;   //lo tenia puesto con % que es en realidad como quiero hacerlo, pero al tener cada pagina html
+                        // un tamaño distinto, varian los espacios 
+
+}
+
+a:hover { 
+    text-decoration: none; 
+}
+
+/*#volver{
+    margin-top:1%;
+    margin-left: 38%;
+    margin-bottom: 1%;
+}*/
+
+#btPediDatos{
+    margin-left:45%;
+}
+
+.botonesEn {
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 1%;
+    margin-bottom: 2%;
+}
+.centrado {
+                margin-left:10%;
+                padding: 2%;
+                margin-top: 1%;
+                //display: flex;
+                align-items: center;
+                //flex-flow: column;
+                //margin: auto;
+                background-color:  #F6F6F6;
+                width: 80%;
+                border-radius: 10px;
+            }
+
+/**{
+    font-family: 'Roboto', serif;
+}*/
+
+
+body {
+    background-color: #A4A6A7;
+}
+
+#mapa {
+    margin-top: 1%;
+                margin-left: 15%;
+                width: 70%;
+                border: 3px solid steelblue;
+                height: 400px;
+            }

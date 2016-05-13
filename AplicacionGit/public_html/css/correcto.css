@@ -1,0 +1,88 @@
+/////////////////////////REGLAS DE ESTILO PARA CORRECTO.HTML ///////////////////////////////
+
+*{
+    font-family: 'Roboto', serif;
+}
+
+
+.cabeceraC {
+    text-align: center;
+    padding: 3%;
+    color: white;
+    background-color: #3CD3AD;   //lo tenia puesto con % que es en realidad como quiero hacerlo, pero al tener cada pagina html
+                        // un tamaño distinto, varian los espacios 
+
+}
+
+body {
+    background-color: #A4A6A7;
+}
+
+.containerC {
+    background-color: #F6F6F6;
+    border-radius: 10px;
+    width: 60%;
+    padding: 5%;
+    margin-top: 1%;
+    margin-left: 20%;
+}
+.botones{
+    margin-left:35%;
+}
+
+/*.titulo {
+    padding-top:5%;
+    margin-top: 10%;
+    margin-bottom: 2%;
+    text-align: center;
+    color: white;
+}*/
+
+.text-primary{
+    color:#4D5051;
+}
+
+
+@media (max-width: 767px)
+{ 
+    .container {
+
+        margin-top: 2%;
+        width: 90%;
+    }
+    .botonesEn {
+        width: 30%;
+        display: block;
+    }
+}
+#btCargarMapa{
+    margin-bottom: 2%;
+}
+
+#btDespliega {
+    margin-bottom: 2%;
+}
+
+
+#btDos {
+    color: red;
+    
+}
+
+/*.centrar{
+        background-color: pink;
+        position: absolute;
+        /*nos posicionamos en el centro del navegador*/
+        /*top:50%;
+        left:50%;
+        /*determinamos una anchura*/
+        /*width:400px;
+        /*indicamos que el margen izquierdo, es la mitad de la anchura*/
+        /*margin-left:-200px;
+        /*determinamos una altura*/
+       /* height:300px;
+        /*indicamos que el margen superior, es la mitad de la altura*/
+       /* margin-top:-150px;
+        border:1px solid #808080;
+        padding:5px;    
+	}*/

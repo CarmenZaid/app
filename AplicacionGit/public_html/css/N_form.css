@@ -1,0 +1,77 @@
+////////////////////////////REGLAS DE ESTILO PARA FORM_MOSQUIS ///////////////////////////
+
+*{
+    font-family: 'Roboto', serif;
+}
+
+
+.cabecera {
+    text-align: center;
+    padding: 3%;
+    color: white;
+    background-color: #3CD3AD;   //lo tenia puesto con % que es en realidad como quiero hacerlo, pero al tener cada pagina html
+                        // un tamaño distinto, varian los espacios 
+
+}
+
+.botonesEn {
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 2%;
+}
+
+#map_canvas {
+    display:none;
+    margin-left: 18%;
+}
+
+.container {
+    background-color: #F6F6F6;
+    border-radius: 10px;
+    width: 60%;
+    margin-top: 1%;
+}
+
+body {
+    background-color: #A4A6A7;
+}
+
+/*.titulo {
+    padding-top:5%;
+    margin-top: 10%;
+    margin-bottom: 2%;
+    text-align: center;
+    color: white;
+}*/
+
+.text-primary{
+    color:#4D5051;
+}
+
+
+@media (max-width: 767px)
+{ 
+    .container {
+
+        margin-top: 2%;
+        width: 90%;
+    }
+    .botonesEn {
+        width: 30%;
+        display: block;
+    }
+}
+#btCargarMapa{
+    margin-bottom: 2%;
+}
+
+#btDespliega {
+    margin-bottom: 2%;
+}
+
+
+#btDos {
+    color: red;
+    
+}
+
