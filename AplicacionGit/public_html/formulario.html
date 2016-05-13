@@ -1,0 +1,288 @@
+<html>
+    <head>
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,900' rel='stylesheet' type='text/css'> <!-- Esto es para la fuente -->
+        <meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>MosApp</title>
+                <!--Enlaces de Estilo-->
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" media="screen"> <!--Enlaza Bootstrap -->
+		<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"/> <!-- Esto es para la fuente Awesome -->
+		<link rel="stylesheet" href="css/N_form.css" type="text/css" media="screen"/> 
+
+        <!-- Etiquetas Script -->
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+        <script type="text/javascript" src="jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" charset="utf-8">
+            
+       
+            var infowindow;
+            var mapa;
+
+            function cargarUbicacion(e){
+                e.preventDefault();
+                if (navigator.geolocation){
+                    navigator.geolocation.getCurrentPosition(guardarCoordenadas, muestraErr);
+                }
+            }
+
+            function guardarCoordenadas(pos){ 
+                var latitud = pos.coords.latitude;
+                var longitud = pos.coords.longitude;
+                document.getElementById("lati").value=latitud;
+                document.getElementById("longi").value=longitud;
+            }
+
+            function muestraErr(error){
+                var errores = {
+                  1 : 'Permission denied',
+                  2 : 'Position unavailable',
+                  3 : 'Request timeout'
+                };
+                //  Si no podemos obtener la localización, usamos un centro por defecto.
+                mapa.setCenter(new google.maps.LatLng(37.0, -6.9));
+                alert("\n Error al posicionar. " + errores[error.code] + "\n Usando centro por defecto");
+              }
+              
+        //FUNCION PARA DESPLEGAR MAPA CARMEN
+            function displayMap() {
+                document.getElementById('map_canvas').style.display="block";
+                initialize();
+                infowindow = new google.maps.InfoWindow({
+  				map: mapa,
+  				content: " "
+  			});
+  			
+  			//  Le asignamos el evento click al MAPA:
+  			google.maps.event.addListener(mapa, 'click', function(e) {
+    			ponVentana(e.latLng, mapa);
+  			});
+            }
+            
+            function initialize() {
+
+            var opciones = {
+                zoom: 17,
+                center: new google.maps.LatLng(37.386719, -5.981365), 
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+              }
+                mapa = new google.maps.Map(document.getElementById("map_canvas"),
+                                            opciones);
+             }
+
+        //AQUI TERMINA FUNCION PARA DESPLEGAR MAPA 
+              
+
+              
+    
+        function ponVentana(pos, mapica) {
+          //  Aquí NO creo una nueva ventana, si no que modifico la única que voy a tener:
+          lati3=pos.lat();
+          longi3=pos.lng();
+          infowindow.setContent("Latitud: " + lati3 + " <br />Longitud: " + longi3);
+          infowindow.setPosition(pos); 
+          //  centramos el mapa (OPCIONAL):
+          mapica.panTo(pos);
+
+                  document.getElementById("lati").value=lati3;
+                  document.getElementById("longi").value=longi3;
+              }
+        
+        
+        function pintarTiposMosquitos(datos){
+            var opcion;
+            for (var i in datos) {
+                opcion = document.createElement("option");
+                opcion.value = datos[i].nombre;
+                opcion.text = datos[i].nombre;
+                $("#tmosquito").append(opcion);
+            }
+        }
+        
+        function error(datos){
+            alert("error en la petición: "  + JSON.stringify(datos));
+        }
+        
+        function cargarTiposMosquitos(){ //ESTA FUNCION ES PARA EL SELECT DE LOS TIPOS DE MOSQUITOS POR ESO 
+                                        //LA OPCION ESTA PREDETERMINADA EN 3 
+            var objeto = new Object();
+     
+            objeto.opcion = 3;
+            
+            $.ajax({
+                url: "servicios.php",
+                contentType: "Content-Type: application/json; charset=utf-8",  //  Como se envia la petición.
+                type: 'POST',
+           //     dataType: "json",  //  como se recibe la petición
+                data: JSON.stringify(objeto),  //  convertimos de objeto javascript a STRING de json
+                success: pintarTiposMosquitos,
+                error: error
+            });
+            
+        }
+        
+        
+        
+            function enviaObjeto(e){
+                e.preventDefault();
+                
+            var objeto = new Object();
+            objeto.tmosquito = $ ("#tmosquito").val();
+            objeto.zcuerpo = $ ("#zcuerpo").val();
+            objeto.fecha = $ ("#fecha").val();
+            objeto.hora = $ ("#hora").val();
+            objeto.latitud = $("#lati").val();
+            objeto.longitud = $("#longi").val();
+            objeto.opcion = 2;
+            
+            $.ajax({
+                url: "servicios.php",
+                contentType: "Content-Type: application/json; charset=utf-8",  //  Como se envia la petición.
+                type: 'POST',
+           //     dataType: "json",  //  como se recibe la petición
+                data: JSON.stringify(objeto),  //  convertimos de objeto javascript a STRING de json
+                success: mostrarMensaje,
+                error: error
+            });
+            
+        }
+        
+        
+        function mostrarMensaje (){
+            
+            alert("Datos enviados correctamente");
+            location.href="correcto.html";
+            
+        }
+  
+    
+        // JQUERY 
+        $(function(){
+            $("#btUbicacion").click(cargarUbicacion);
+            //  Cargamos el desplegable con los tipos de mosquitos:
+            cargarTiposMosquitos();
+            $("#enviar").click(enviaObjeto);
+            $("#btDespliega").click(displayMap);
+            
+            
+        });
+
+        </script>
+        
+        
+    </head>
+    <body>
+        <div class="cabecera">
+	<h1 class="titulo">Registrar nueva actividad</h1> 
+        
+        
+        </div>
+	<div class="container">
+	<form name="input" action="servicios.php" method="post"></br>     
+    <p class="text-primary"><strong>Rellene los campos: </strong></p>
+	
+<!-- Tipo de mosquito EMPIEZA AQUI -->
+            Tipo de mosquito: 
+            <select  name="tmosquito" id="tmosquito">
+            </select>
+<!-- Hasta aqui el Tipo de Mosquito -->
+
+               
+
+        </br>
+        </br>
+		
+		
+
+		
+<!-- Zona del cuerpo empieza aqui -->
+           Zona de la picadura:
+            <select name="zcuerpo" id="zcuerpo">
+                <option value="Cabeza" >Cabeza</option>
+                <option value="Cuello">Cuello</option>
+                <option value="Tronco">Tronco</option>
+                <option value="Brazos">Brazos</option>
+                <option value="Piernas" >Piernas</option>
+            </select>
+<!-- Hasta aqui Zona de la picadura -->
+        
+
+		</br>
+        </br>
+
+            
+<!-- Fecha empieza aqui -->
+                Fecha:
+                <input type="date" name="fecha" id="fecha" value="" class="form-control">
+<!-- Hasta aqui la fecha -->
+
+		</br>
+        </br>
+
+<!-- Hora empieza aqui -->
+                Hora:
+                <input type="time" name="hora" id="hora" value="" class="form-control">
+<!-- Hasta aqui la hora -->
+		</br>
+		</br>
+
+<div>       <!-- AQUI EMPIEZA EL DIV PARA LA LOCALIZACION -->     
+
+    
+    
+<p class="text-left"> Para añadir la localizacion:</p>
+
+<!-- Latitud empieza aqui -->       
+            </br>
+                Latitud:
+                <input type="text" id="lati" name="latitud" value="" class="form-control">
+<!-- Hasta aqui la Latitud --> 
+			</br>
+<!-- Longitud empieza aqui -->
+                Longitud:
+                <input type="text" id="longi" name="longitud" value="" class="form-control">
+            </br>
+
+<!-- Hasta aqui la longitud -->
+
+
+<input type="hidden" name="opcion" value="2"/>
+<!-- Enviar empieza aqui -->
+       
+    
+    <div class="box"> <!-- Cambio el nombre de la clase box1 a box para quitar las instrucciones de css -->
+        <p >O cargue su ubicación</p>
+    	<button id="btUbicacion" >Usar Gps</button>
+    </div>
+        <p>O bien marque la localización en el mapa:</p>
+       
+  
+		
+       
+       
+       
+       <input type="button" id="btDespliega" value="Mostrar el Mapa"/>
+        <div id="map_canvas" style="width:500px; height:380px;" ></div>
+       
+       
+       
+        </div> <!--HASTA AQUI LLEGA EL DIV DE LA LOCALIZACION-->
+		
+		<div class="botonesEn"> <!-- Creo un div para crear un contenedor para los dos botones finales -->
+		
+
+		<button id="enviar" type="button" class="btn btn-lg btn-block" style="color:white; background-color: #3CD3AD">Enviar datos</button>
+		<a href="index.html"><button type="button" class="btn btn-lg btn-block " style="color: #F6F6F6; background-color: grey">Volver al Inicio</button></a>
+
+		</div>
+		
+		<!-- HASTA AQUI EL DIV QUE CONTIENE LOS BOTONES ENVIAR Y VOLVER-->
+		</br>
+        </form>
+		</div>
+
+		<!-- <button id="enviar" class="btn btn-primary">Enviar datos</button>--> <!-- ESTE ES EL ANTIGUO BOTON DE ENVIAR-->
+        <!--<a href="index.html">Volver</a>  --> <!-- ESTE ES EL ANTIGUO ENLACE DE VOLVER -->
+		<!--<a href="index.html"><button>Regresar</button></a> --> <!-- ESTO ES UN EJEMPLO QUE ENCONTRE PARA PONER UN BOTON CON ENLACE -->
+</body>
+</html>
+
